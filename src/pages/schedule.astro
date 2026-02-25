@@ -1,0 +1,162 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schedule = [
+  { time: "08:30 – 09:00", title: "報到入場", desc: "簽到、領取手冊", icon: "📋" },
+  { time: "09:00 – 09:15", title: "開場致詞", desc: "主持人開場、師長致詞", icon: "🎤" },
+  { time: "09:15 – 10:30", title: "專題發表（上半場）", desc: "數學、物理、化學類專題口頭報告", icon: "📊" },
+  { time: "10:30 – 10:50", title: "中場休息", desc: "茶敘交流時間", icon: "☕" },
+  { time: "10:50 – 12:00", title: "專題發表（下半場）", desc: "生物、資訊、地科類專題口頭報告", icon: "🔬" },
+  { time: "12:00 – 12:15", title: "影片首映", desc: "影片組精心拍攝之記錄片首映", icon: "🎬" },
+  { time: "12:15 – 12:30", title: "閉幕 & 合照", desc: "頒獎、閉幕致詞、大合照", icon: "📸" },
+];
+
+const info = [
+  { icon: "📍", label: "地點", value: "臺北市立建國高級中學" },
+  { icon: "📅", label: "日期", value: "2026 年 5 月 18 日（週一）" },
+  { icon: "🚌", label: "交通", value: "捷運南京復興站 / 松江南京站" },
+  { icon: "🎫", label: "入場", value: "自由入場" },
+];
+---
+
+<BaseLayout title="流程與交通｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">流程與交通</h1>
+    <p class="section-sub">活動當天流程安排與交通資訊</p>
+  </section>
+
+  <!-- Info cards -->
+  <div class="info-grid fade-up">
+    {info.map((item) => (
+      <div class="info-card">
+        <span class="info-icon">{item.icon}</span>
+        <div>
+          <div class="info-label">{item.label}</div>
+          <div class="info-value">{item.value}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Timeline -->
+  <section class="timeline-section fade-up">
+    <h2 class="section-title" style="font-size: 24px;">活動流程</h2>
+    <div class="timeline">
+      {schedule.map((item, idx) => (
+        <div class="timeline-item fade-up" style={`--i:${idx}`}>
+          <div class="timeline-dot-wrap">
+            <div class="timeline-dot">{item.icon}</div>
+            {idx < schedule.length - 1 && <div class="timeline-line" />}
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-time">{item.time}</div>
+            <h3 class="timeline-title">{item.title}</h3>
+            <p class="timeline-desc muted">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .info-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: all var(--transition);
+    }
+    .info-card:hover {
+      box-shadow: var(--shadow-sm);
+      border-color: rgba(124,58,237,0.15);
+    }
+    .info-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--gradient-subtle);
+      flex-shrink: 0;
+    }
+    .info-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .info-value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+
+    /* Timeline */
+    .timeline-section { padding: 8px 0 20px; }
+    .timeline { margin-top: 24px; }
+
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    .timeline-dot-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 48px;
+    }
+    .timeline-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      transition: all var(--transition);
+    }
+    .timeline-item:hover .timeline-dot {
+      border-color: var(--accent-light);
+      box-shadow: 0 0 0 4px rgba(124,58,237,0.08);
+    }
+    .timeline-line {
+      width: 2px;
+      flex: 1;
+      min-height: 20px;
+      background: var(--border);
+    }
+
+    .timeline-content {
+      padding: 10px 0 32px;
+    }
+    .timeline-time {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .timeline-desc { font-size: 14px; }
+
+    @media (max-width: 520px) {
+      .timeline-dot-wrap { width: 40px; }
+      .timeline-dot { width: 40px; height: 40px; font-size: 18px; }
+    }
+  </style>
+</BaseLayout>

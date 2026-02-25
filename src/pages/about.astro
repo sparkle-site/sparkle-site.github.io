@@ -1,0 +1,153 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const BASE = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="關於｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">關於 Sparkle</h1>
+    <p class="section-sub">認識這場成果發表會的幕後故事</p>
+  </section>
+
+  <div class="about-grid">
+    <!-- What -->
+    <section class="about-card fade-up" style="--i:0">
+      <div class="about-icon">✨</div>
+      <h2>什麼是 Sparkle？</h2>
+      <p class="muted">
+        Sparkle 是一場由同學自主籌備的成果發表會，展示各學科領域的專題研究成果。
+        從數學到地科，從影片到音樂，每一份作品都是同學們用心投入的結晶。
+      </p>
+    </section>
+
+    <!-- Why -->
+    <section class="about-card fade-up" style="--i:1">
+      <div class="about-icon">🎯</div>
+      <h2>為什麼辦這個活動？</h2>
+      <p class="muted">
+        我們相信每位同學的研究都值得被看見。透過 Sparkle，同學們可以分享自己的研究歷程，
+        互相學習、互相激勵，讓知識的火花在交流中綻放。
+      </p>
+    </section>
+
+    <!-- How -->
+    <section class="about-card fade-up" style="--i:2">
+      <div class="about-icon">🤝</div>
+      <h2>籌備團隊</h2>
+      <p class="muted">
+        Sparkle 由行政組、文宣組、財務組、影片組、音樂組、活動組共同籌備。
+        從企劃、設計、拍攝到當天活動執行，每一個環節都凝聚了團隊的心血。
+      </p>
+      <a class="about-link" href={`${BASE}team/`}>
+        查看完整分工表
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </section>
+  </div>
+
+  <!-- Contact -->
+  <section class="contact-section fade-up">
+    <div class="contact-card">
+      <h2>聯絡我們</h2>
+      <p class="muted" style="margin-bottom: 20px;">有任何問題或建議，歡迎來信聯繫</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">sparkle@example.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">地點</div>
+            <div class="contact-value">臺北市立建國高級中學</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .about-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .about-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      background: var(--surface);
+      transition: all var(--transition);
+    }
+    .about-card:hover {
+      border-color: rgba(124,58,237,0.15);
+      box-shadow: var(--shadow-sm);
+    }
+    .about-icon {
+      font-size: 28px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: var(--gradient-subtle);
+      margin-bottom: 16px;
+    }
+    .about-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .about-card p { font-size: 15px; line-height: 1.8; }
+
+    .about-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      transition: gap var(--transition);
+    }
+    .about-link:hover { gap: 8px; }
+
+    .contact-section { padding: 0 0 20px; }
+    .contact-card {
+      background: var(--gradient-subtle);
+      border: 1px solid rgba(124,58,237,0.1);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+    }
+    .contact-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .contact-items {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      min-width: 220px;
+    }
+    .contact-icon { font-size: 20px; }
+    .contact-label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .contact-value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+  </style>
+</BaseLayout>

@@ -1,0 +1,376 @@
+---
+const BASE = import.meta.env.BASE_URL;
+const { title = "Sparkle", description = "Sparkle 成果發表網站" } = Astro.props;
+
+const navItems = [
+  { label: "首頁", href: `${BASE}` },
+  { label: "流程", href: `${BASE}schedule/` },
+  { label: "專題", href: `${BASE}projects/` },
+  { label: "關於", href: `${BASE}about/` },
+  { label: "分工", href: `${BASE}team/` },
+];
+---
+
+<!doctype html>
+<html lang="zh-Hant" style="color-scheme: light;">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+      :root {
+        --maxw: 1080px;
+        --pad: 24px;
+        --radius: 14px;
+        --radius-lg: 20px;
+        --border: rgba(0,0,0,0.08);
+        --muted: #6b7280;
+        --bg: #fafafa;
+        --surface: #ffffff;
+        --text: #111827;
+        --accent: #7c3aed;
+        --accent-light: #a78bfa;
+        --accent-bg: #f5f3ff;
+        --gradient: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #f59e0b 100%);
+        --gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(236,72,153,0.06) 50%, rgba(245,158,11,0.04) 100%);
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+        --shadow: 0 4px 16px rgba(0,0,0,0.06);
+        --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: #ffffff;
+        color-scheme: light;
+      }
+
+      body {
+        font-family: 'Inter', 'Noto Sans TC', ui-sans-serif, system-ui, -apple-system, sans-serif;
+        line-height: 1.7;
+        color: var(--text);
+        background: var(--bg);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; display: block; }
+      .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); }
+
+      /* ── Header ── */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255,255,255,0.8);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--border);
+        transition: box-shadow var(--transition);
+      }
+      header.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+
+      .brand {
+        font-weight: 900;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .nav-links a {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--muted);
+        transition: all var(--transition);
+        position: relative;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+        background: rgba(124,58,237,0.06);
+      }
+      .nav-links a.active {
+        color: var(--accent);
+        background: var(--accent-bg);
+      }
+
+      /* Mobile menu button */
+      .menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 10px;
+        color: var(--text);
+        transition: background var(--transition);
+      }
+      .menu-btn:hover { background: rgba(0,0,0,0.04); }
+      .menu-btn svg { display: block; }
+
+      /* Mobile nav */
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+        background: rgba(0,0,0,0.3);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      .mobile-nav.open { opacity: 1; visibility: visible; }
+      .mobile-nav-inner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: min(320px, 85vw);
+        height: 100%;
+        background: var(--surface);
+        padding: 80px var(--pad) var(--pad);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -8px 0 30px rgba(0,0,0,0.1);
+      }
+      .mobile-nav.open .mobile-nav-inner { transform: translateX(0); }
+      .mobile-nav-inner a {
+        display: block;
+        padding: 14px 16px;
+        font-size: 17px;
+        font-weight: 600;
+        border-radius: 12px;
+        margin-bottom: 4px;
+        transition: background var(--transition);
+      }
+      .mobile-nav-inner a:hover { background: var(--accent-bg); }
+      .mobile-nav-inner a.active { color: var(--accent); background: var(--accent-bg); }
+
+      .mobile-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 10px;
+        color: var(--text);
+      }
+
+      @media (max-width: 640px) {
+        .nav-links { display: none; }
+        .menu-btn, .mobile-nav { display: block; }
+      }
+
+      /* ── Main ── */
+      main { padding: 32px 0 80px; min-height: 60vh; }
+
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      /* ── Common UI ── */
+      .muted { color: var(--muted); }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition);
+      }
+      .btn:hover {
+        border-color: var(--accent-light);
+        box-shadow: var(--shadow);
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .btn-primary:hover {
+        background: #6d28d9;
+        border-color: #6d28d9;
+        box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        background: var(--surface);
+        transition: all var(--transition);
+      }
+      .card:hover {
+        border-color: rgba(124,58,237,0.2);
+        box-shadow: var(--shadow);
+        transform: translateY(-2px);
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+
+      .section-title {
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      .section-sub {
+        color: var(--muted);
+        font-size: 16px;
+        margin-bottom: 32px;
+      }
+
+      /* ── Scroll animations ── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Stagger children */
+      .stagger > * { transition-delay: calc(var(--i, 0) * 0.08s); }
+    </style>
+  </head>
+
+  <body>
+    <header id="site-header">
+      <div class="wrap nav-inner">
+        <a class="brand" href={`${BASE}`}>Sparkle</a>
+        <div class="nav-links">
+          {navItems.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+        </div>
+        <button class="menu-btn" id="menu-btn" aria-label="選單">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav">
+      <div class="mobile-nav-inner">
+        <button class="mobile-close" id="mobile-close" aria-label="關閉選單">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="6" y1="18" x2="18" y2="6" />
+          </svg>
+        </button>
+        {navItems.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </div>
+    </div>
+
+    <main class="wrap">
+      <slot />
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <div>&copy; {new Date().getFullYear()} Sparkle</div>
+        <div class="muted">sparkle@example.com</div>
+      </div>
+    </footer>
+
+    <script>
+      // Header scroll shadow
+      const header = document.getElementById('site-header');
+      window.addEventListener('scroll', () => {
+        header?.classList.toggle('scrolled', window.scrollY > 10);
+      });
+
+      // Mobile nav
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileClose = document.getElementById('mobile-close');
+
+      menuBtn?.addEventListener('click', () => mobileNav?.classList.add('open'));
+      mobileClose?.addEventListener('click', () => mobileNav?.classList.remove('open'));
+      mobileNav?.addEventListener('click', (e) => {
+        if (e.target === mobileNav) mobileNav.classList.remove('open');
+      });
+
+      // Active nav link
+      const currentPath = window.location.pathname;
+      document.querySelectorAll('.nav-links a, .mobile-nav-inner a').forEach((a) => {
+        if (a.getAttribute('href') === currentPath ||
+            (a.getAttribute('href') !== '/' && currentPath.startsWith(a.getAttribute('href') || ''))) {
+          a.classList.add('active');
+        }
+      });
+
+      // Scroll-triggered fade-up
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+      document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

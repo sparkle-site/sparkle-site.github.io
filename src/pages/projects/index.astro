@@ -1,0 +1,222 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const BASE = import.meta.env.BASE_URL;
+
+const CATEGORIES = ["數學", "物理", "化學", "生物", "資訊", "地科"];
+
+const CATEGORY_ICONS: Record<string, string> = {
+  "數學": "📐", "物理": "⚡", "化學": "🧪", "生物": "🧬", "資訊": "💻", "地科": "🌍",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "數學": "#7c3aed",
+  "物理": "#2563eb",
+  "化學": "#dc2626",
+  "生物": "#16a34a",
+  "資訊": "#0891b2",
+  "地科": "#d97706",
+};
+
+const make = (cat: string, count: number, startId: number) =>
+  Array.from({ length: count }).map((_, i) => ({
+    slug: `${cat}-${startId + i}`,
+    title: `${cat} 專題 ${i + 1}：題目先放這裡`,
+    summary: "一句話摘要（placeholder）",
+    category: cat,
+  }));
+
+let id = 1;
+const allProjects = [
+  ...make("數學", 3, id), (id += 3, null),
+  ...make("物理", 6, id), (id += 6, null),
+  ...make("化學", 7, id), (id += 7, null),
+  ...make("生物", 6, id), (id += 6, null),
+  ...make("資訊", 6, id), (id += 6, null),
+  ...make("地科", 1, id),
+].filter(Boolean) as any[];
+---
+
+<BaseLayout title="專題總覽｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">專題總覽</h1>
+    <p class="section-sub">瀏覽 {allProjects.length} 個跨領域研究專題</p>
+  </section>
+
+  <!-- Category filters (JS-driven) -->
+  <div class="filters fade-up" id="filters">
+    <button class="filter-chip active" data-cat="全部">
+      全部 <span class="chip-count">{allProjects.length}</span>
+    </button>
+    {CATEGORIES.map((cat) => {
+      const count = allProjects.filter((p) => p.category === cat).length;
+      return (
+        <button class="filter-chip" data-cat={cat}>
+          <span class="chip-icon">{CATEGORY_ICONS[cat]}</span>
+          {cat}
+          <span class="chip-count">{count}</span>
+        </button>
+      );
+    })}
+  </div>
+
+  <div class="project-grid" id="project-grid">
+    {allProjects.map((p, idx) => (
+      <div class="project-card fade-up" data-category={p.category} style={`--i:${idx % 6}; --cat-color: ${CATEGORY_COLORS[p.category]}`}>
+        <div class="project-cat-badge" style={`background: ${CATEGORY_COLORS[p.category]}15; color: ${CATEGORY_COLORS[p.category]}`}>
+          {CATEGORY_ICONS[p.category]} {p.category}
+        </div>
+        <h3 class="project-title">{p.title}</h3>
+        <p class="project-summary muted">{p.summary}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="empty-state" id="empty-state" style="display:none;">
+    <div class="empty-icon">📭</div>
+    <p>此分類暫無專題</p>
+  </div>
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: inherit;
+      color: var(--text);
+    }
+    .filter-chip:hover {
+      border-color: var(--accent-light);
+      background: var(--accent-bg);
+    }
+    .filter-chip.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .filter-chip.active .chip-count {
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+    .chip-icon { font-size: 15px; }
+    .chip-count {
+      font-size: 12px;
+      background: rgba(0,0,0,0.06);
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .project-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      background: var(--surface);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--cat-color);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .project-card:hover {
+      border-color: rgba(124,58,237,0.15);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card.hiding {
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+      position: absolute;
+      visibility: hidden;
+    }
+
+    .project-cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .project-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .project-summary { font-size: 14px; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+    @media (max-width: 520px) {
+      .project-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    const chips = document.querySelectorAll('.filter-chip');
+    const cards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
+    const emptyState = document.getElementById('empty-state');
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+
+        const cat = chip.getAttribute('data-cat');
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const match = cat === '全部' || card.getAttribute('data-category') === cat;
+          card.classList.toggle('hiding', !match);
+          if (match) visibleCount++;
+        });
+
+        if (emptyState) emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+      });
+    });
+  </script>
+</BaseLayout>
