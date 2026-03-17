@@ -1,0 +1,268 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const BASE = import.meta.env.BASE_URL;
+
+const CATEGORIES = ["數學", "物理", "化學", "生物", "資訊", "地科"];
+
+const CATEGORY_ICONS: Record<string, string> = {
+  "數學": "📐", "物理": "⚡", "化學": "🧪", "生物": "🧬", "資訊": "💻", "地科": "🌍",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "數學": "#7c3aed",
+  "物理": "#2563eb",
+  "化學": "#dc2626",
+  "生物": "#16a34a",
+  "資訊": "#0891b2",
+  "地科": "#d97706",
+};
+
+const allProjects = [
+  // 數學 (3)
+  { category: "數學", name: "尤耀星", title: "Geometric analysis of the eigenvalue range of the generalized covariance matrix", summary: "In classical random matrix theory, the limiting spectral distribution (LSD) of a sample covariance matrix can be derived explicitly via the Stieltjes transform. However, for generalized sample covariance matrices, no closed-form expression for the LSD is available, complicating efforts to analyze their spectral behavior. In this work, we employ a combination of geometric techniques and the Stieltjes transform to derive rigorous bounds on the support of the eigenvalue distribution for generalized covariance matrices.", advisor: "王紹宣教授", dept: "國立中央大學統計研究所" },
+  { category: "數學", name: "施秉辰", title: "簡單多邊形的可摺性", summary: "", advisor: "", dept: "" },
+  { category: "數學", name: "闕子宸", title: "有限次分割操作下整數可構造性之研究", summary: "", advisor: "", dept: "" },
+  // 物理 (6)
+  { category: "物理", name: "王昱閎", title: "矽奈米方塊的光致相變", summary: "", advisor: "朱士維教授、陳致嘉學長、宴德心學長", dept: "國立台灣大學物理系" },
+  { category: "物理", name: "吳耘丞", title: "", summary: "", advisor: "", dept: "" },
+  { category: "物理", name: "林煜軒", title: "以24GHz Doppler Radar 偵測微動作", summary: "", advisor: "", dept: "" },
+  { category: "物理", name: "涂皓宇", title: "市場記憶的重整化：基於滲流理論的動態 LMF 模型研究", summary: "", advisor: "", dept: "" },
+  { category: "物理", name: "黃楷博", title: "利用天文影像進行快速定位", summary: "", advisor: "", dept: "" },
+  { category: "物理", name: "賴敬宇", title: "", summary: "", advisor: "", dept: "" },
+  // 化學 (7)
+  { category: "化學", name: "杜時晴", title: "雙金屬的第二金屬對CO2還原的影響", summary: "", advisor: "王禎翰教授", dept: "國立台灣師範大學化學系" },
+  { category: "化學", name: "張宸睿", title: "DsKabC蛋白的純化與結構探討", summary: "", advisor: "", dept: "" },
+  { category: "化學", name: "陳柏廷", title: "阿拉伯芥ICE1無序蛋白產生液-液相分離的成因分析", summary: "", advisor: "", dept: "" },
+  { category: "化學", name: "詹緯濬", title: "合成新穎酸性 pH 值敏感的 nor-Cy3 螢光分子", summary: "", advisor: "梁碧惠教授、Fabian Grassl 學長", dept: "" },
+  { category: "化學", name: "鄧靖懷", title: "胺基改質磷酸化稲殼用於二氧化碳吸附之研究", summary: "", advisor: "吳紀勝教授，李思偉，黃韻心學姐", dept: "國立台灣大學化工系" },
+  { category: "化學", name: "蕭敬庭", title: "TiO₂降解亞甲藍的不同電子接收劑探討", summary: "", advisor: "王建隆教授、鄭振谷學長", dept: "國立台灣大學化學系" },
+  { category: "化學", name: "顏廷翰", title: "生物標誌物 miR-124-3p 的螢光生物感測器", summary: "", advisor: "", dept: "" },
+  // 生物 (6)
+  { category: "生物", name: "吳祉樂", title: "NAT10 is a positive regulator of telomerase through TERC modulation", summary: "", advisor: "", dept: "" },
+  { category: "生物", name: "邱懷賦", title: "XCP1蛋白質的結構探討", summary: "", advisor: "徐駿森教授 簡弈崴學長 郭伯彥學長", dept: "國立台灣大學農業化學系" },
+  { category: "生物", name: "張庭溱", title: "探討腦瘤治療藥物的優化", summary: "", advisor: "", dept: "" },
+  { category: "生物", name: "張瑛太", title: "不同植物族群APX酶對GSH的結合能力比較與演化趨勢分析", summary: "", advisor: "", dept: "" },
+  { category: "生物", name: "黃品鈞", title: "探討 IDOL 在 T 細胞活化與功能上扮演的角色", summary: "", advisor: "柯俊榮教授、莊煒婷學姐", dept: "國立台灣大學醫學院免疫所" },
+  { category: "生物", name: "蘇冠宇", title: "篩選微生物具廣效性抗黴菌真菌之能力及其活性物質之分析", summary: "本研究從土壤採集開始，進行篩菌、養菌與抗菌測試，欲從其中找出具有抗黴菌、真菌效果之菌株。本研究總共採集了九個地點的土壤樣本，並篩選出約 150 個菌株。在初步測試中，找到了 24 種具有抗菌效果。在後續的測試中，有 3 種在抑制白色念珠菌的生長上具有極為良好的效果。等待未來進行進一步的測試", advisor: "黃志宏教授", dept: "國立台北科技大學化學工程與生物科技系" },
+  // 地科 (1)
+  { category: "地科", name: "周紘宇", title: "以氧同位素重建古代溫躍層結構", summary: "", advisor: "", dept: "" },
+  // 資訊 (6)
+  { category: "資訊", name: "李牧寬", title: "以 SLEUTH 模型探討交通、地形與政策對都市擴張的影響，以臺北都會區為例", summary: "", advisor: "", dept: "" },
+  { category: "資訊", name: "林秉坤", title: "DQN 遷移學習效益研究-以貪吃蛇為例", summary: "", advisor: "", dept: "" },
+  { category: "資訊", name: "崔恩睿、曾宣澂", title: "應用不同強化學習方法訓練「皮卡丘打排球」之比較和分析", summary: "", advisor: "戴文凱教授", dept: "國立臺灣科技大學資訊工程系" },
+  { category: "資訊", name: "彭耀霆", title: "", summary: "", advisor: "", dept: "" },
+  { category: "資訊", name: "楊翊程", title: "Super Mario 環境下DQN系列的超參數效能分析", summary: "", advisor: "陳尚澤教授", dept: "國立臺灣科技大學資訊工程系" },
+  { category: "資訊", name: "藍翊庭", title: "基於 WGAN-GP 的字體風格遷移研究", summary: "", advisor: "", dept: "" },
+];
+---
+
+<BaseLayout title="專題總覽｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">專題總覽</h1>
+    <p class="section-sub">瀏覽 {allProjects.length} 個跨領域研究專題</p>
+  </section>
+
+  <!-- Category filters (JS-driven) -->
+  <div class="filters fade-up" id="filters">
+    <button class="filter-chip active" data-cat="全部">
+      全部 <span class="chip-count">{allProjects.length}</span>
+    </button>
+    {CATEGORIES.map((cat) => {
+      const count = allProjects.filter((p) => p.category === cat).length;
+      return (
+        <button class="filter-chip" data-cat={cat}>
+          <span class="chip-icon">{CATEGORY_ICONS[cat]}</span>
+          {cat}
+          <span class="chip-count">{count}</span>
+        </button>
+      );
+    })}
+  </div>
+
+  <div class="project-grid" id="project-grid">
+    {allProjects.map((p, idx) => (
+      <div class="project-card fade-up" data-category={p.category} style={`--i:${idx % 6}; --cat-color: ${CATEGORY_COLORS[p.category]}`}>
+        <div class="project-cat-badge" style={`background: ${CATEGORY_COLORS[p.category]}15; color: ${CATEGORY_COLORS[p.category]}`}>
+          {CATEGORY_ICONS[p.category]} {p.category}
+        </div>
+        <h3 class="project-title">{p.title || "（題目待定）"}</h3>
+        <div class="project-meta">
+          <span class="project-name">{p.name}</span>
+          {p.advisor && <span class="project-advisor">{p.advisor}</span>}
+          {p.dept && <span class="project-dept">{p.dept}</span>}
+        </div>
+        {p.summary && <p class="project-summary muted">{p.summary}</p>}
+      </div>
+    ))}
+  </div>
+
+  <div class="empty-state" id="empty-state" style="display:none;">
+    <div class="empty-icon">📭</div>
+    <p>此分類暫無專題</p>
+  </div>
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: inherit;
+      color: var(--text);
+    }
+    .filter-chip:hover {
+      border-color: var(--accent-light);
+      background: var(--accent-bg);
+    }
+    .filter-chip.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .filter-chip.active .chip-count {
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+    .chip-icon { font-size: 15px; }
+    .chip-count {
+      font-size: 12px;
+      background: rgba(0,0,0,0.06);
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .project-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      background: var(--surface);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--cat-color);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .project-card:hover {
+      border-color: rgba(124,58,237,0.15);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card.hiding {
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+      position: absolute;
+      visibility: hidden;
+    }
+
+    .project-cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .project-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .project-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 2px 10px;
+      border-radius: 6px;
+    }
+    .project-advisor, .project-dept {
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(0,0,0,0.03);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .project-summary { font-size: 14px; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+    @media (max-width: 520px) {
+      .project-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    const chips = document.querySelectorAll('.filter-chip');
+    const cards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
+    const emptyState = document.getElementById('empty-state');
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+
+        const cat = chip.getAttribute('data-cat');
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const match = cat === '全部' || card.getAttribute('data-category') === cat;
+          card.classList.toggle('hiding', !match);
+          if (match) visibleCount++;
+        });
+
+        if (emptyState) emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+      });
+    });
+  </script>
+</BaseLayout>

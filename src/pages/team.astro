@@ -1,0 +1,188 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const teams = [
+  {
+    title: "行政組",
+    icon: "📋",
+    color: "#7c3aed",
+    members: [
+      { role: "總召", name: "蘇冠宇" },
+      { role: "副召", name: "詹緯濬" },
+    ],
+  },
+  {
+    title: "文宣組",
+    icon: "🎨",
+    color: "#ec4899",
+    members: [
+      { role: "組長", name: "顏廷翰" },
+      { role: "美術", name: "吳祉樂、邱懷賦" },
+      { role: "手冊", name: "崔恩睿、黃楷博" },
+      { role: "簡報", name: "李牧寬、藍翊庭" },
+      { role: "衣服", name: "施秉辰、闕子宸" },
+      { role: "宣傳", name: "杜時晴、林煜軒" },
+      { role: "網站", name: "彭耀霆、楊翊程" },
+    ],
+  },
+  {
+    title: "財務組",
+    icon: "💰",
+    color: "#f59e0b",
+    members: [
+      { role: "總務", name: "尤耀星" },
+      { role: "採購", name: "黃品鈞" },
+    ],
+  },
+  {
+    title: "影片組",
+    icon: "🎬",
+    color: "#2563eb",
+    members: [
+      { role: "組長/導演", name: "張宸睿" },
+      { role: "編劇", name: "涂皓宇、張瑛太" },
+      { role: "主演", name: "王昱閎、周紘宇、賴敬宇" },
+      { role: "剪輯", name: "曾宣澂" },
+      { role: "拍攝", name: "林秉坤" },
+    ],
+  },
+  {
+    title: "音樂組",
+    icon: "🎵",
+    color: "#16a34a",
+    members: [
+      { role: "組長", name: "張庭溱" },
+      { role: "編曲", name: "吳耘丞、張庭溱" },
+      { role: "作曲", name: "張庭溱" },
+      { role: "作詞", name: "張庭溱" },
+      { role: "後製", name: "周紘宇" },
+    ],
+  },
+  {
+    title: "活動組",
+    icon: "🎉",
+    color: "#dc2626",
+    members: [
+      { role: "策畫", name: "陳柏廷、蕭敬庭" },
+      { role: "主持人 (2F)", name: "吳祉樂、張宸睿" },
+      { role: "主持人 (4F)", name: "黃品鈞、鄧靖懷" },
+    ],
+  },
+];
+---
+
+<BaseLayout title="工作人員名單｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">工作人員名單</h1>
+    <p class="section-sub">感謝每一位讓 Sparkle 成真的夥伴</p>
+  </section>
+
+  <div class="team-grid">
+    {teams.map((team, idx) => (
+      <section class="team-card fade-up" style={`--i:${idx}; --team-color: ${team.color}`}>
+        <div class="team-header">
+          <span class="team-icon">{team.icon}</span>
+          <h2 class="team-title">{team.title}</h2>
+          <span class="team-count">{team.members.length} 人</span>
+        </div>
+        <div class="team-members">
+          {team.members.map((m) => (
+            <div class="member-row">
+              <span class="member-role">{m.role}</span>
+              <span class="member-name">{m.name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .team-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .team-card:hover {
+      border-color: rgba(124,58,237,0.15);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .team-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--team-color) 6%, transparent), transparent);
+    }
+    .team-icon {
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .team-title {
+      font-size: 17px;
+      font-weight: 700;
+      flex: 1;
+    }
+    .team-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(0,0,0,0.04);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .team-members { padding: 8px 22px 14px; }
+
+    .member-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      gap: 12px;
+    }
+    .member-row:last-child { border-bottom: none; }
+
+    .member-role {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--team-color);
+      background: color-mix(in srgb, var(--team-color) 8%, transparent);
+      padding: 3px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .member-name {
+      font-size: 15px;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</BaseLayout>
