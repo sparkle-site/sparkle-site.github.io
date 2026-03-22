@@ -19,39 +19,39 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const allProjects = [
   // 數學 (3)
-  { category: "數學", name: "尤耀星", title: "Geometric analysis of the eigenvalue range of the generalized covariance matrix", summary: "In classical random matrix theory, the limiting spectral distribution (LSD) of a sample covariance matrix can be derived explicitly via the Stieltjes transform. However, for generalized sample covariance matrices, no closed-form expression for the LSD is available, complicating efforts to analyze their spectral behavior. In this work, we employ a combination of geometric techniques and the Stieltjes transform to derive rigorous bounds on the support of the eigenvalue distribution for generalized covariance matrices.", advisor: "王紹宣教授", dept: "國立中央大學統計研究所" },
+  { category: "數學", name: "尤耀星", title: "Geometric analysis of the eigenvalue range of the generalized covariance matrix", summary: "In classical random matrix theory, the limiting spectral distribution (LSD) of a sample covariance matrix can be derived explicitly via the Stieltjes transform. However, for generalized sample covariance matrices, no closed-form expression for the LSD is available, complicating efforts to analyze their spectral behavior. In this work, we employ a combination of geometric techniques and the Stieltjes transform to derive rigorous bounds on the support of the eigenvalue distribution for generalized covariance matrices. To assess the sharpness of our theoretical estimates, we conduct numerical simulations under various parameter settings and compare the observed eigenvalue ranges with our predicted bounds. The results demonstrate that our geometric transform approach yields tight approximations to the true spectral edge. These findings offer new insights into the asymptotic behavior of the generalized covariance matrix and provide practical guidelines for applications requiring precise eigenvalue information. In our application, we evaluate image-reconstruction performance by applying an eigenvalue-shrinkage rule to both the proposed generalized sample covariance matrix and the classical sample covariance matrix.", advisor: "王紹宣教授", dept: "國立中央大學統計研究所" },
   { category: "數學", name: "施秉辰", title: "簡單多邊形的可摺性", summary: "", advisor: "", dept: "" },
   { category: "數學", name: "闕子宸", title: "有限次分割操作下整數可構造性之研究", summary: "", advisor: "", dept: "" },
   // 物理 (6)
   { category: "物理", name: "王昱閎", title: "矽奈米方塊的光致相變", summary: "", advisor: "朱士維教授、陳致嘉學長、宴德心學長", dept: "國立台灣大學物理系" },
   { category: "物理", name: "吳耘丞", title: "", summary: "", advisor: "", dept: "" },
-  { category: "物理", name: "林煜軒", title: "以24GHz Doppler Radar 偵測微動作", summary: "", advisor: "", dept: "" },
-  { category: "物理", name: "涂皓宇", title: "市場記憶的重整化：基於滲流理論的動態 LMF 模型研究", summary: "", advisor: "", dept: "" },
-  { category: "物理", name: "黃楷博", title: "利用天文影像進行快速定位", summary: "", advisor: "", dept: "" },
-  { category: "物理", name: "賴敬宇", title: "", summary: "", advisor: "", dept: "" },
+  { category: "物理", name: "林煜軒", title: "以24GHz Doppler Radar 偵測微動作", summary: "", advisor: "李俊興教授", dept: "國立臺灣大學電機系" },
+  { category: "物理", name: "涂皓宇", title: "市場記憶的重整化：基於滲流理論的動態 LMF 模型研究", summary: "", advisor: "陳宣毅教授", dept: "" },
+  { category: "物理", name: "黃楷博", title: "利用天文影像進行快速定位", summary: "", advisor: "王祥宇教授", dept: "中央研究院天文及物理研究所" },
+  { category: "物理", name: "賴敬宇", title: "超越標準模型：廣義 Dick's law 的徑向微擾理論探討", summary: "", advisor: "J.J. Dickson", dept: "" },
   // 化學 (7)
   { category: "化學", name: "杜時晴", title: "雙金屬的第二金屬對CO2還原的影響", summary: "", advisor: "王禎翰教授", dept: "國立台灣師範大學化學系" },
-  { category: "化學", name: "張宸睿", title: "DsKabC蛋白的純化與結構探討", summary: "", advisor: "", dept: "" },
-  { category: "化學", name: "陳柏廷", title: "阿拉伯芥ICE1無序蛋白產生液-液相分離的成因分析", summary: "", advisor: "", dept: "" },
+  { category: "化學", name: "張宸睿", title: "DsKabC蛋白的活性與結構探討", summary: "", advisor: "徐駿森教授 周家誼學長 周俊吉學長", dept: "國立台灣大學農業化學系" },
+  { category: "化學", name: "陳柏廷", title: "阿拉伯芥ICE1無序蛋白產生液-液相分離的成因分析", summary: "", advisor: "楊健志教授、賴佳筠學姐", dept: "國立台灣大學生化科技學系" },
   { category: "化學", name: "詹緯濬", title: "合成新穎酸性 pH 值敏感的 nor-Cy3 螢光分子", summary: "", advisor: "梁碧惠教授、Fabian Grassl 學長", dept: "" },
   { category: "化學", name: "鄧靖懷", title: "胺基改質磷酸化稲殼用於二氧化碳吸附之研究", summary: "", advisor: "吳紀勝教授，李思偉，黃韻心學姐", dept: "國立台灣大學化工系" },
   { category: "化學", name: "蕭敬庭", title: "TiO₂降解亞甲藍的不同電子接收劑探討", summary: "", advisor: "王建隆教授、鄭振谷學長", dept: "國立台灣大學化學系" },
-  { category: "化學", name: "顏廷翰", title: "生物標誌物 miR-124-3p 的螢光生物感測器", summary: "", advisor: "", dept: "" },
+  { category: "化學", name: "顏廷翰", title: "生物標誌物 miR-124-3p 的螢光生物感測器", summary: "", advisor: "何佳安教授 吳毓凌學姐 蔡沁彤學姐 湯鈺惠學姐", dept: "國立台灣大學生化科技學系" },
   // 生物 (6)
-  { category: "生物", name: "吳祉樂", title: "NAT10 is a positive regulator of telomerase through TERC modulation", summary: "", advisor: "", dept: "" },
+  { category: "生物", name: "吳祉樂", title: "探討NAT10蛋白與端粒酶活性之關聯與互動", summary: "", advisor: "朱雪萍教授 楊育昇學長", dept: "國立台灣大學分子與細胞生物學研究所" },
   { category: "生物", name: "邱懷賦", title: "XCP1蛋白質的結構探討", summary: "", advisor: "徐駿森教授 簡弈崴學長 郭伯彥學長", dept: "國立台灣大學農業化學系" },
-  { category: "生物", name: "張庭溱", title: "探討腦瘤治療藥物的優化", summary: "", advisor: "", dept: "" },
+  { category: "生物", name: "張庭溱", title: "探討腦瘤治療藥物的優化", summary: "", advisor: "黃楓婷教授 張虔翊學長 張筠廷學姐", dept: "國立台灣大學生化科技學系" },
   { category: "生物", name: "張瑛太", title: "不同植物族群APX酶對GSH的結合能力比較與演化趨勢分析", summary: "", advisor: "", dept: "" },
   { category: "生物", name: "黃品鈞", title: "探討 IDOL 在 T 細胞活化與功能上扮演的角色", summary: "", advisor: "柯俊榮教授、莊煒婷學姐", dept: "國立台灣大學醫學院免疫所" },
   { category: "生物", name: "蘇冠宇", title: "篩選微生物具廣效性抗黴菌真菌之能力及其活性物質之分析", summary: "本研究從土壤採集開始，進行篩菌、養菌與抗菌測試，欲從其中找出具有抗黴菌、真菌效果之菌株。本研究總共採集了九個地點的土壤樣本，並篩選出約 150 個菌株。在初步測試中，找到了 24 種具有抗菌效果。在後續的測試中，有 3 種在抑制白色念珠菌的生長上具有極為良好的效果。等待未來進行進一步的測試", advisor: "黃志宏教授", dept: "國立台北科技大學化學工程與生物科技系" },
   // 地科 (1)
-  { category: "地科", name: "周紘宇", title: "以氧同位素重建古代溫躍層結構", summary: "", advisor: "", dept: "" },
+  { category: "地科", name: "周紘宇", title: "以氧同位素重建古代溫躍層結構", summary: "", advisor: "羅立教授、楊峻誌學長", dept: "國立台灣大學地質系" },
   // 資訊 (6)
   { category: "資訊", name: "李牧寬", title: "以 SLEUTH 模型探討交通、地形與政策對都市擴張的影響，以臺北都會區為例", summary: "", advisor: "", dept: "" },
-  { category: "資訊", name: "林秉坤", title: "DQN 遷移學習效益研究-以貪吃蛇為例", summary: "", advisor: "", dept: "" },
+  { category: "資訊", name: "林秉坤", title: "DQN 遷移學習效益研究-以貪吃蛇為例", summary: "", advisor: "戴文凱教授", dept: "" },
   { category: "資訊", name: "崔恩睿、曾宣澂", title: "應用不同強化學習方法訓練「皮卡丘打排球」之比較和分析", summary: "", advisor: "戴文凱教授", dept: "國立臺灣科技大學資訊工程系" },
   { category: "資訊", name: "彭耀霆", title: "", summary: "", advisor: "", dept: "" },
-  { category: "資訊", name: "楊翊程", title: "Super Mario 環境下DQN系列的超參數效能分析", summary: "", advisor: "陳尚澤教授", dept: "國立臺灣科技大學資訊工程系" },
+  { category: "資訊", name: "楊翊程", title: "SuperMario使用QRD3QN的超參數效能分析", summary: "", advisor: "陳尚澤教授", dept: "國立臺灣科技大學資訊工程系" },
   { category: "資訊", name: "藍翊庭", title: "基於 WGAN-GP 的字體風格遷移研究", summary: "", advisor: "", dept: "" },
 ];
 ---
