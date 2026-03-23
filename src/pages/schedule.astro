@@ -1,28 +1,70 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const schedule = [
-  { time: "08:30 – 09:00", title: "報到入場", desc: "簽到、領取手冊", icon: "📋" },
-  { time: "09:00 – 09:15", title: "開場致詞", desc: "主持人開場、師長致詞", icon: "🎤" },
-  { time: "09:15 – 10:30", title: "專題發表（上半場）", desc: "數學、物理、化學類專題口頭報告", icon: "📊" },
-  { time: "10:30 – 10:50", title: "中場休息", desc: "茶敘交流時間", icon: "☕" },
-  { time: "10:50 – 12:00", title: "專題發表（下半場）", desc: "生物、資訊、地科類專題口頭報告", icon: "🔬" },
-  { time: "12:00 – 12:15", title: "影片首映", desc: "影片組精心拍攝之記錄片首映", icon: "🎬" },
-  { time: "12:15 – 12:30", title: "閉幕 & 合照", desc: "頒獎、閉幕致詞、大合照", icon: "📸" },
-];
-
 const info = [
   { icon: "📍", label: "地點", value: "臺北市立建國高級中學" },
   { icon: "📅", label: "日期", value: "2026 年 5 月 18 日（週一）" },
   { icon: "🚌", label: "交通", value: "捷運中正紀念堂站" },
   { icon: "🎫", label: "入場", value: "自由入場" },
 ];
+
+const venue4F = {
+  name: "夢紅樓四樓國際會議廳",
+  sessions: [
+    { time: "13:40 – 13:50", name: "尤耀星", category: "數學", topic: "Geometric analysis of the eigenvalue range of the generalized covariance matrix", advisor: "王紹宣教授、侯以修老師" },
+    { time: "13:50 – 14:00", name: "闕子宸", category: "數學", topic: "有限次分割操作下整數可構造性之研究", advisor: "侯以修老師" },
+    { time: "14:00 – 14:10", name: "施秉辰", category: "數學", topic: "簡單多邊形的可摺性", advisor: "侯以修老師" },
+    { time: "14:10 – 14:20", name: "王昱閎", category: "物理", topic: "矽奈米方塊的光致相變", advisor: "朱士維教授、林元祥老師" },
+    { time: "14:20 – 14:30", name: "吳耘丞", category: "物理", topic: "", advisor: "林元祥老師" },
+    { time: "14:30 – 14:40", name: "賴敬宇", category: "物理", topic: "超越標準模型：廣義 Dick's law 的徑向微擾理論探討", advisor: "林元祥老師" },
+    { time: "14:40 – 14:50", name: "涂皓宇", category: "物理", topic: "市場記憶的重整化：基於滲流理論的動態 LMF 模型研究", advisor: "林元祥老師" },
+    { time: "break", name: "", category: "", topic: "中場休息、參觀展版", advisor: "" },
+    { time: "15:30 – 15:40", name: "林煜軒", category: "物理", topic: "以 24GHz Doppler Radar 偵測微動作", advisor: "林元祥老師" },
+    { time: "15:40 – 15:50", name: "黃楷博", category: "物理", topic: "利用天文影像進行快速定位", advisor: "林元祥老師" },
+    { time: "15:50 – 16:00", name: "張瑛太", category: "生物", topic: "不同植物族群 APX 酶對 GSH 的結合能力比較與演化趨勢分析", advisor: "黃慧茹老師" },
+    { time: "16:00 – 16:10", name: "吳祉樂", category: "生物", topic: "NAT10 is a positive regulator of telomerase through TERC modulation", advisor: "黃慧茹老師" },
+    { time: "16:10 – 16:20", name: "張庭溱", category: "生物", topic: "探討腦瘤治療藥物的優化", advisor: "黃楓婷教授、黃慧茹老師" },
+    { time: "16:20 – 16:30", name: "蘇冠宇", category: "生物", topic: "篩選微生物具廣效性抗黴菌真菌之能力及其活性物質之分析", advisor: "黃志宏教授、黃慧茹老師" },
+    { time: "16:30 – 16:40", name: "邱懷賦", category: "生物", topic: "XCP1 蛋白質的結構探討", advisor: "徐駿森教授、黃慧茹老師" },
+    { time: "16:30 – 16:40", name: "黃品鈞", category: "生物", topic: "探討 IDOL 在 T 細胞活化與功能上扮演的角色", advisor: "柯俊榮教授、黃慧茹老師" },
+  ],
+};
+
+const venue2F = {
+  name: "夢紅樓二樓展演廳",
+  sessions: [
+    { time: "13:40 – 13:50", name: "詹緯濬", category: "化學", topic: "合成新穎酸性 pH 值敏感的 nor-Cy3 螢光分子", advisor: "梁碧惠教授、廖家榮老師" },
+    { time: "13:50 – 14:00", name: "杜時晴", category: "化學", topic: "雙金屬的第二金屬對 CO2 還原的影響", advisor: "王禎翰教授、廖家榮老師" },
+    { time: "14:00 – 14:10", name: "鄧靖懷", category: "化學", topic: "胺基改質磷酸化稻殼用於二氧化碳吸附之研究", advisor: "吳紀聖教授、廖家榮老師" },
+    { time: "14:10 – 14:20", name: "陳柏廷", category: "化學", topic: "阿拉伯芥 ICE1 無序蛋白產生液-液相分離的成因分析", advisor: "廖家榮老師" },
+    { time: "14:20 – 14:30", name: "蕭敬庭", category: "化學", topic: "TiO₂ 降解亞甲藍的不同電子接收劑探討", advisor: "王建隆教授、廖家榮老師" },
+    { time: "14:30 – 14:40", name: "顏廷翰", category: "化學", topic: "生物標誌物 miR-124-3p 的螢光生物感測器", advisor: "廖家榮老師" },
+    { time: "14:40 – 14:50", name: "張宸睿", category: "化學", topic: "DsKabC 蛋白的活性與結構探討", advisor: "徐駿森教授、廖家榮老師" },
+    { time: "break", name: "", category: "", topic: "中場休息、參觀展版", advisor: "" },
+    { time: "15:30 – 15:40", name: "周紘宇", category: "地科", topic: "以氧同位素重建古代溫躍層結構", advisor: "李文禮老師" },
+    { time: "15:40 – 15:50", name: "崔恩睿、曾宣澂", category: "資訊", topic: "應用不同強化學習方法訓練「皮卡丘打排球」之比較和分析", advisor: "戴文凱教授、劉新韋老師" },
+    { time: "15:50 – 16:00", name: "林秉坤", category: "資訊", topic: "DQN 遷移學習效益研究－以貪吃蛇為例", advisor: "劉新韋老師" },
+    { time: "16:00 – 16:10", name: "彭耀霆", category: "資訊", topic: "", advisor: "劉新韋老師" },
+    { time: "16:10 – 16:20", name: "藍翊庭", category: "資訊", topic: "基於 WGAN-GP 的字體風格遷移研究", advisor: "劉新韋老師" },
+    { time: "16:20 – 16:30", name: "李牧寬", category: "資訊", topic: "以 SLEUTH 模型探討交通、地形與政策對都市擴張的影響，以臺北都會區為例", advisor: "劉新韋老師" },
+    { time: "16:30 – 16:40", name: "楊翊程", category: "資訊", topic: "SuperMario 使用 QRD3QN 的超參數效能分析", advisor: "陳尚澤教授、劉新韋老師" },
+  ],
+};
+
+const categoryColors: Record<string, string> = {
+  "數學": "#6366f1",
+  "物理": "#f59e0b",
+  "化學": "#10b981",
+  "生物": "#ec4899",
+  "地科": "#8b5cf6",
+  "資訊": "#3b82f6",
+};
 ---
 
 <BaseLayout title="流程與交通｜Sparkle">
   <section class="page-header fade-up">
-    <h1 class="section-title">流程與交通</h1>
-    <p class="section-sub">活動當天流程安排與交通資訊</p>
+    <h1 class="section-title">議程表</h1>
+    <p class="section-sub">專題發表時間、場地與報告順序</p>
   </section>
 
   <!-- Info cards -->
@@ -38,23 +80,91 @@ const info = [
     ))}
   </div>
 
-  <!-- Timeline -->
-  <section class="timeline-section fade-up">
-    <h2 class="section-title" style="font-size: 24px;">活動流程</h2>
-    <div class="timeline">
-      {schedule.map((item, idx) => (
-        <div class="timeline-item fade-up" style={`--i:${idx}`}>
-          <div class="timeline-dot-wrap">
-            <div class="timeline-dot">{item.icon}</div>
-            {idx < schedule.length - 1 && <div class="timeline-line" />}
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-time">{item.time}</div>
-            <h3 class="timeline-title">{item.title}</h3>
-            <p class="timeline-desc muted">{item.desc}</p>
-          </div>
-        </div>
-      ))}
+  <!-- Venue 4F -->
+  <section class="venue-section fade-up">
+    <div class="venue-header">
+      <span class="venue-icon">🏛️</span>
+      <h2 class="venue-title">{venue4F.name}</h2>
+    </div>
+    <div class="schedule-table-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th class="col-time">時間</th>
+            <th class="col-name">姓名</th>
+            <th class="col-cat">組別</th>
+            <th class="col-topic">專題名稱</th>
+            <th class="col-advisor">指導教授 / 老師</th>
+          </tr>
+        </thead>
+        <tbody>
+          {venue4F.sessions.map((s) =>
+            s.time === "break" ? (
+              <tr class="break-row">
+                <td colspan="5">
+                  <div class="break-label">☕ {s.topic}</div>
+                </td>
+              </tr>
+            ) : (
+              <tr>
+                <td class="cell-time">{s.time}</td>
+                <td class="cell-name">{s.name}</td>
+                <td>
+                  <span class="cat-badge" style={`--cat-color: ${categoryColors[s.category] || '#6b7280'}`}>
+                    {s.category}
+                  </span>
+                </td>
+                <td class="cell-topic">{s.topic || "—"}</td>
+                <td class="cell-advisor">{s.advisor}</td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Venue 2F -->
+  <section class="venue-section fade-up">
+    <div class="venue-header">
+      <span class="venue-icon">🎭</span>
+      <h2 class="venue-title">{venue2F.name}</h2>
+    </div>
+    <div class="schedule-table-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th class="col-time">時間</th>
+            <th class="col-name">姓名</th>
+            <th class="col-cat">組別</th>
+            <th class="col-topic">專題名稱</th>
+            <th class="col-advisor">指導教授 / 老師</th>
+          </tr>
+        </thead>
+        <tbody>
+          {venue2F.sessions.map((s) =>
+            s.time === "break" ? (
+              <tr class="break-row">
+                <td colspan="5">
+                  <div class="break-label">☕ {s.topic}</div>
+                </td>
+              </tr>
+            ) : (
+              <tr>
+                <td class="cell-time">{s.time}</td>
+                <td class="cell-name">{s.name}</td>
+                <td>
+                  <span class="cat-badge" style={`--cat-color: ${categoryColors[s.category] || '#6b7280'}`}>
+                    {s.category}
+                  </span>
+                </td>
+                <td class="cell-topic">{s.topic || "—"}</td>
+                <td class="cell-advisor">{s.advisor}</td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -95,68 +205,129 @@ const info = [
     .info-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
     .info-value { font-size: 15px; font-weight: 600; margin-top: 2px; }
 
-    /* Timeline */
-    .timeline-section { padding: 8px 0 20px; }
-    .timeline { margin-top: 24px; }
-
-    .timeline-item {
-      display: flex;
-      gap: 20px;
-      position: relative;
+    /* Venue */
+    .venue-section {
+      margin-bottom: 48px;
     }
-
-    .timeline-dot-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex-shrink: 0;
-      width: 48px;
-    }
-    .timeline-dot {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--surface);
-      border: 2px solid var(--border);
+    .venue-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-      transition: all var(--transition);
+      gap: 12px;
+      margin-bottom: 16px;
     }
-    .timeline-item:hover .timeline-dot {
-      border-color: var(--accent-light);
-      box-shadow: 0 0 0 4px rgba(124,58,237,0.08);
+    .venue-icon {
+      font-size: 28px;
     }
-    .timeline-line {
-      width: 2px;
-      flex: 1;
-      min-height: 20px;
-      background: var(--border);
+    .venue-title {
+      font-size: 22px;
+      font-weight: 700;
     }
 
-    .timeline-content {
-      padding: 10px 0 32px;
+    /* Table */
+    .schedule-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
     }
-    .timeline-time {
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .schedule-table thead {
+      background: var(--gradient-subtle);
+    }
+    .schedule-table th {
+      padding: 12px 14px;
+      text-align: left;
       font-size: 13px;
       font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+      border-bottom: 2px solid var(--border);
+    }
+    .schedule-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .schedule-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .schedule-table tbody tr:hover {
+      background: rgba(124,58,237,0.03);
+    }
+
+    .col-time { width: 120px; }
+    .col-name { width: 100px; }
+    .col-cat { width: 60px; }
+    .col-advisor { width: 160px; }
+
+    .cell-time {
+      font-weight: 600;
+      font-size: 13px;
       color: var(--accent);
-      margin-bottom: 4px;
+      white-space: nowrap;
     }
-    .timeline-title {
-      font-size: 17px;
-      font-weight: 700;
-      margin-bottom: 4px;
+    .cell-name {
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .timeline-desc { font-size: 14px; }
+    .cell-topic {
+      line-height: 1.5;
+    }
+    .cell-advisor {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .cat-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cat-color);
+      background: color-mix(in srgb, var(--cat-color) 10%, transparent);
+      white-space: nowrap;
+    }
+
+    .break-row td {
+      padding: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .break-label {
+      text-align: center;
+      padding: 14px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--muted);
+      background: var(--gradient-subtle);
+    }
+
+    @media (max-width: 768px) {
+      .schedule-table {
+        font-size: 13px;
+      }
+      .schedule-table th,
+      .schedule-table td {
+        padding: 8px 10px;
+      }
+      .col-advisor {
+        display: none;
+      }
+      .schedule-table th:last-child {
+        display: none;
+      }
+    }
 
     @media (max-width: 520px) {
-      .timeline-dot-wrap { width: 40px; }
-      .timeline-dot { width: 40px; height: 40px; font-size: 18px; }
+      .schedule-table {
+        font-size: 12px;
+      }
+      .cell-time {
+        font-size: 11px;
+      }
     }
   </style>
 </BaseLayout>
