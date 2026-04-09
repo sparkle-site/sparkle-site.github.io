@@ -98,7 +98,12 @@ const allProjects = [
           {p.advisor && <span class="project-advisor">{p.advisor}</span>}
           {p.dept && <span class="project-dept">{p.dept}</span>}
         </div>
-        {p.summary && <p class="project-summary muted">{p.summary}</p>}
+        {p.summary && (
+          <div class="summary-wrap">
+            <p class="project-summary muted">{p.summary}</p>
+            <button class="summary-toggle">展開</button>
+          </div>
+        )}
       </div>
     ))}
   </div>
@@ -359,18 +364,12 @@ const allProjects = [
     }
 
     // Summary expand/collapse
-    document.querySelectorAll('.project-summary').forEach((el) => {
-      const p = el as HTMLElement;
-      if (p.scrollHeight > p.clientHeight + 2) {
-        const btn = document.createElement('button');
-        btn.className = 'summary-toggle';
-        btn.textContent = '展開';
-        btn.addEventListener('click', () => {
-          const expanded = p.classList.toggle('expanded');
-          btn.textContent = expanded ? '收合' : '展開';
-        });
-        p.parentElement?.insertBefore(btn, p.nextSibling);
-      }
+    document.querySelectorAll('.summary-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const p = btn.previousElementSibling as HTMLElement;
+        const expanded = p.classList.toggle('expanded');
+        btn.textContent = expanded ? '收合' : '展開';
+      });
     });
   </script>
 </BaseLayout>
