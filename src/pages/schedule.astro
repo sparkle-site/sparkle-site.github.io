@@ -255,7 +255,7 @@ const categoryColors: Record<string, string> = {
       border-bottom: none;
     }
     .schedule-table tbody tr:hover {
-      background: rgba(124,58,237,0.03);
+      background: var(--accent-bg);
     }
 
     .col-time { width: 120px; }
@@ -298,11 +298,13 @@ const categoryColors: Record<string, string> = {
     }
     .break-label {
       text-align: center;
-      padding: 14px;
+      padding: 18px;
       font-weight: 600;
       font-size: 14px;
-      color: var(--muted);
+      color: var(--accent);
       background: var(--gradient-subtle);
+      border-top: 2px dashed rgba(124,58,237,0.15);
+      border-bottom: 2px dashed rgba(124,58,237,0.15);
     }
 
     @media (max-width: 768px) {
@@ -322,12 +324,23 @@ const categoryColors: Record<string, string> = {
     }
 
     @media (max-width: 520px) {
-      .schedule-table {
-        font-size: 12px;
+      .schedule-table thead { display: none; }
+      .schedule-table tbody tr:not(.break-row) {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 14px;
+        gap: 6px;
+        border-bottom: 1px solid var(--border);
       }
-      .cell-time {
-        font-size: 11px;
+      .schedule-table tbody tr:not(.break-row) td {
+        border-bottom: none;
+        padding: 0;
       }
+      .cell-time { font-size: 12px; width: auto; order: 1; }
+      .cell-name { order: 2; margin-left: auto; }
+      .schedule-table tbody tr:not(.break-row) td:nth-child(3) { order: 3; }
+      .cell-topic { order: 4; width: 100%; font-size: 14px; margin-top: 4px; font-weight: 600; }
+      .cell-advisor { order: 5; width: 100%; display: block !important; font-size: 12px; }
     }
   </style>
 </BaseLayout>

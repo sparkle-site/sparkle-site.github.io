@@ -25,6 +25,27 @@ const BASE = import.meta.env.BASE_URL;
       <p class="hero-desc">
         2026/5/18&emsp;臺北市立建國高級中學&emsp;自由入場
       </p>
+      <div class="hero-countdown" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-days">--</span>
+          <span class="countdown-label">天</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-hours">--</span>
+          <span class="countdown-label">時</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-mins">--</span>
+          <span class="countdown-label">分</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-secs">--</span>
+          <span class="countdown-label">秒</span>
+        </div>
+      </div>
       <div class="hero-actions">
         <a class="hero-btn hero-btn-primary" href={`${BASE}projects/`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -153,7 +174,7 @@ const BASE = import.meta.env.BASE_URL;
     /* ── Hero ── */
     .hero {
       position: relative;
-      padding: 80px 0 60px;
+      padding: 100px 0 80px;
       overflow: hidden;
       text-align: center;
     }
@@ -313,6 +334,47 @@ const BASE = import.meta.env.BASE_URL;
       transform: translateY(-2px);
       box-shadow: var(--shadow);
     }
+    [data-theme="dark"] .hero-btn-glass {
+      background: rgba(26,26,36,0.7);
+      border-color: rgba(255,255,255,0.1);
+    }
+    [data-theme="dark"] .hero-btn-glass:hover {
+      background: rgba(26,26,36,0.9);
+    }
+
+    /* ── Countdown ── */
+    .hero-countdown {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease 0.35s both;
+    }
+    .countdown-item { text-align: center; }
+    .countdown-num {
+      display: block;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      min-width: 56px;
+    }
+    .countdown-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .countdown-sep {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--muted);
+      opacity: 0.4;
+      padding-bottom: 18px;
+    }
 
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -455,6 +517,9 @@ const BASE = import.meta.env.BASE_URL;
       transform: translateY(-3px);
       box-shadow: 0 6px 20px color-mix(in srgb, var(--c) 15%, transparent);
     }
+    :global([data-theme="dark"]) .cat-pill:hover {
+      background: color-mix(in srgb, var(--c) 12%, var(--surface));
+    }
     .cat-emoji { font-size: 18px; }
     .cat-count {
       font-size: 12px;
@@ -501,6 +566,28 @@ const BASE = import.meta.env.BASE_URL;
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
+    }
+
+    /* ── Dark mode overrides ── */
+    :global([data-theme="dark"]) .glass-card {
+      background: rgba(26,26,36,0.8);
+      border-color: rgba(167,139,250,0.15);
+    }
+    :global([data-theme="dark"]) .hero-badge {
+      background: rgba(167,139,250,0.12);
+      border-color: rgba(167,139,250,0.2);
+    }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 520px) {
+      .hero { padding: 60px 0 40px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-btn { justify-content: center; }
+      .countdown-num { font-size: 26px; min-width: 40px; }
+      .countdown-sep { font-size: 22px; }
+      .cta-card { padding: 40px 20px; }
+      .cta-card h2 { font-size: 24px; }
+      .cta-actions { flex-direction: column; align-items: stretch; }
     }
   </style>
 
@@ -618,5 +705,30 @@ const BASE = import.meta.env.BASE_URL;
       });
     }, { threshold: 0.5 });
     statNums.forEach((el) => statsObserver.observe(el));
+
+    // Countdown to 2026/5/18 09:00 UTC+8
+    const eventDate = new Date('2026-05-18T09:00:00+08:00').getTime();
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = eventDate - now;
+      if (diff <= 0) {
+        document.getElementById('countdown')?.remove();
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      const de = document.getElementById('cd-days');
+      const he = document.getElementById('cd-hours');
+      const me = document.getElementById('cd-mins');
+      const se = document.getElementById('cd-secs');
+      if (de) de.textContent = String(d);
+      if (he) he.textContent = String(h).padStart(2, '0');
+      if (me) me.textContent = String(m).padStart(2, '0');
+      if (se) se.textContent = String(s).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </BaseLayout>

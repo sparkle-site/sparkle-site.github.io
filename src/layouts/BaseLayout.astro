@@ -12,13 +12,16 @@ const navItems = [
 ---
 
 <!doctype html>
-<html lang="zh-Hant" style="color-scheme: light;">
+<html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      (function(){var t=localStorage.getItem('sparkle-theme');if(t){document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.documentElement.style.colorScheme='dark';}})();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -47,10 +50,25 @@ const navItems = [
         --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
+      [data-theme="dark"] {
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --bg: #0f0f14;
+        --surface: #1a1a24;
+        --border: rgba(255,255,255,0.08);
+        --accent: #a78bfa;
+        --accent-light: #c4b5fd;
+        --accent-bg: rgba(124,58,237,0.15);
+        --gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(236,72,153,0.08) 50%, rgba(245,158,11,0.06) 100%);
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+        --shadow: 0 4px 16px rgba(0,0,0,0.3);
+        --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+        color-scheme: dark;
+      }
+
       html {
         scroll-behavior: smooth;
-        background: #ffffff;
-        color-scheme: light;
+        background: var(--bg);
       }
 
       body {
@@ -74,9 +92,11 @@ const navItems = [
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         border-bottom: 1px solid var(--border);
-        transition: box-shadow var(--transition);
+        transition: box-shadow var(--transition), background var(--transition);
       }
+      [data-theme="dark"] header { background: rgba(15,15,20,0.8); }
       header.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
+      [data-theme="dark"] header.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.3); }
 
       .nav-inner {
         display: flex;
@@ -130,6 +150,7 @@ const navItems = [
         transition: background var(--transition);
       }
       .menu-btn:hover { background: rgba(0,0,0,0.04); }
+      [data-theme="dark"] .menu-btn:hover { background: rgba(255,255,255,0.06); }
       .menu-btn svg { display: block; }
 
       /* Mobile nav */
@@ -182,13 +203,61 @@ const navItems = [
         color: var(--text);
       }
 
-      @media (max-width: 640px) {
+      /* Theme toggle */
+      .theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        cursor: pointer;
+        transition: all var(--transition);
+        color: var(--text);
+        margin-left: 4px;
+        flex-shrink: 0;
+      }
+      .theme-toggle:hover {
+        border-color: var(--accent-light);
+        background: var(--accent-bg);
+      }
+      .icon-sun { display: none; }
+      .icon-moon { display: block; }
+      [data-theme="dark"] .icon-sun { display: block; }
+      [data-theme="dark"] .icon-moon { display: none; }
+
+      .mobile-theme-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        border: none;
+        background: none;
+        width: 100%;
+        border-radius: 12px;
+        transition: background var(--transition);
+        margin-top: 8px;
+      }
+      .mobile-theme-toggle:hover { background: var(--accent-bg); }
+
+      @media (max-width: 768px) {
         .nav-links { display: none; }
         .menu-btn, .mobile-nav { display: block; }
+        .theme-toggle { display: none; }
       }
 
       /* ── Main ── */
-      main { padding: 32px 0 80px; min-height: 60vh; }
+      main { padding: 32px 0 80px; min-height: 60vh; animation: pageIn 0.4s ease both; }
+      @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+      /* ── Focus styles ── */
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
       /* ── Footer ── */
       footer {
@@ -296,6 +365,10 @@ const navItems = [
             <a href={item.href}>{item.label}</a>
           ))}
         </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="切換深色模式">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <button class="menu-btn" id="menu-btn" aria-label="選單">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="4" y1="7" x2="20" y2="7" />
@@ -317,6 +390,10 @@ const navItems = [
         {navItems.map((item) => (
           <a href={item.href}>{item.label}</a>
         ))}
+        <button class="mobile-theme-toggle" id="mobile-theme-toggle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span id="mobile-theme-label">深色模式</span>
+        </button>
       </div>
     </div>
 
@@ -327,7 +404,10 @@ const navItems = [
     <footer>
       <div class="wrap footer-inner">
         <div>&copy; {new Date().getFullYear()} Sparkle</div>
-        <div class="muted">sparkle@example.com</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <a href="#" class="muted" style="font-size:13px;font-weight:500;">↑ 回到頂部</a>
+          <span class="muted">sparkle@example.com</span>
+        </div>
       </div>
     </footer>
 
@@ -357,6 +437,24 @@ const navItems = [
           a.classList.add('active');
         }
       });
+
+      // Theme toggle
+      const html = document.documentElement;
+      function toggleTheme() {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        html.style.colorScheme = newTheme;
+        localStorage.setItem('sparkle-theme', newTheme);
+        updateMobileLabel(newTheme);
+      }
+      function updateMobileLabel(theme: string) {
+        const label = document.getElementById('mobile-theme-label');
+        if (label) label.textContent = theme === 'dark' ? '淺色模式' : '深色模式';
+      }
+      document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+      document.getElementById('mobile-theme-toggle')?.addEventListener('click', toggleTheme);
+      updateMobileLabel(html.getAttribute('data-theme') || 'light');
 
       // Scroll-triggered fade-up
       const observer = new IntersectionObserver(

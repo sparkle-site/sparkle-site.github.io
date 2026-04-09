@@ -148,7 +148,7 @@ const teams = [
       font-size: 12px;
       font-weight: 600;
       color: var(--muted);
-      background: rgba(0,0,0,0.04);
+      background: var(--border);
       padding: 3px 10px;
       border-radius: 999px;
     }
@@ -160,7 +160,7 @@ const teams = [
       align-items: center;
       justify-content: space-between;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      border-bottom: 1px solid var(--border);
       gap: 12px;
     }
     .member-row:last-child { border-bottom: none; }
@@ -183,6 +183,11 @@ const teams = [
 
     @media (max-width: 768px) {
       .team-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .team-header { padding: 14px 16px; }
+      .team-members { padding: 6px 16px 10px; }
+      .member-name { font-size: 14px; }
     }
   </style>
 </BaseLayout>
