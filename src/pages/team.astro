@@ -8,7 +8,7 @@ const teams = [
     color: "#7c3aed",
     members: [
       { role: "總召", name: "蘇冠宇" },
-      { role: "副召", name: "詹緯濬" },
+      { role: "副召", name: "詹緯濬、黃楷博" },
     ],
   },
   {
@@ -22,7 +22,7 @@ const teams = [
       { role: "簡報", name: "李牧寬、藍翊庭" },
       { role: "衣服", name: "施秉辰、闕子宸" },
       { role: "宣傳", name: "杜時晴、林煜軒" },
-      { role: "網站", name: "彭耀霆、楊翊程" },
+      { role: "網站", name: "彭耀霆、楊翊程、尤耀星" },
     ],
   },
   {
@@ -64,8 +64,8 @@ const teams = [
     color: "#dc2626",
     members: [
       { role: "策畫", name: "陳柏廷、蕭敬庭" },
-      { role: "主持人 (2F)", name: "吳祉樂、張宸睿" },
-      { role: "主持人 (4F)", name: "黃品鈞、鄧靖懷" },
+      { role: "主持人 (2F)", name: "鄧靖懷、張宸睿" },
+      { role: "主持人 (4F)", name: "黃品鈞、吳祉樂" },
     ],
   },
 ];
@@ -83,7 +83,7 @@ const teams = [
         <div class="team-header">
           <span class="team-icon">{team.icon}</span>
           <h2 class="team-title">{team.title}</h2>
-          <span class="team-count">{team.members.length} 人</span>
+          <!-- -->
         </div>
         <div class="team-members">
           {team.members.map((m) => (
@@ -148,7 +148,7 @@ const teams = [
       font-size: 12px;
       font-weight: 600;
       color: var(--muted);
-      background: rgba(0,0,0,0.04);
+      background: var(--border);
       padding: 3px 10px;
       border-radius: 999px;
     }
@@ -160,7 +160,7 @@ const teams = [
       align-items: center;
       justify-content: space-between;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      border-bottom: 1px solid var(--border);
       gap: 12px;
     }
     .member-row:last-child { border-bottom: none; }
@@ -183,6 +183,11 @@ const teams = [
 
     @media (max-width: 768px) {
       .team-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .team-header { padding: 14px 16px; }
+      .team-members { padding: 6px 16px 10px; }
+      .member-name { font-size: 14px; }
     }
   </style>
 </BaseLayout>
