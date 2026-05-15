@@ -120,18 +120,15 @@ const categoryColors: Record<string, string> = {
       <span class="venue-icon">🪑</span>
       <h2 class="venue-title">座位圖（二樓展演廳）</h2>
     </div>
-    <div class="seating-card">
-      <object data={`${import.meta.env.BASE_URL}seating-2F.pdf`} type="application/pdf" class="seating-pdf">
-        <div class="seating-fallback">
-          <p>您的瀏覽器無法直接顯示 PDF。</p>
-          <a class="pdf-link" href={`${import.meta.env.BASE_URL}seating-2F.pdf`} target="_blank" rel="noopener">
-            📄 開啟座位圖 PDF
-          </a>
-        </div>
-      </object>
-      <a class="pdf-download" href={`${import.meta.env.BASE_URL}seating-2F.pdf`} download>
-        ⬇ 下載座位圖 PDF
-      </a>
+    <div class="seating-pages">
+      <figure class="seating-page">
+        <img src={`${import.meta.env.BASE_URL}seating-2F-page1.png`} alt="座位圖第一頁" loading="lazy" />
+        <figcaption>第一頁</figcaption>
+      </figure>
+      <figure class="seating-page">
+        <img src={`${import.meta.env.BASE_URL}seating-2F-page2.png`} alt="座位圖第二頁" loading="lazy" />
+        <figcaption>第二頁</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -322,51 +319,38 @@ const categoryColors: Record<string, string> = {
 
     /* Seating */
     .seating-section { margin-bottom: 48px; }
-    .seating-card {
+    .seating-pages {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 860px) {
+      .seating-pages { grid-template-columns: 1fr 1fr; }
+    }
+    .seating-page {
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 16px;
+      padding: 12px;
       background: var(--surface);
-    }
-    .seating-pdf {
-      width: 100%;
-      height: 600px;
-      border-radius: var(--radius);
-      background: var(--bg);
-      display: block;
-    }
-    .seating-fallback {
-      padding: 40px 20px;
-      text-align: center;
-    }
-    .pdf-link, .pdf-download {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 18px;
-      border-radius: var(--radius);
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
       transition: all var(--transition);
     }
-    .pdf-link:hover, .pdf-download:hover {
-      background: #6d28d9;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(124,58,237,0.3);
-    }
-    .pdf-download {
-      margin-top: 12px;
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--border);
-    }
-    .pdf-download:hover {
-      background: var(--accent-bg);
+    .seating-page:hover {
       border-color: var(--accent-light);
+      box-shadow: var(--shadow);
     }
-    @media (max-width: 520px) {
-      .seating-pdf { height: 400px; }
+    .seating-page img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+    .seating-page figcaption {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 10px;
     }
 
     /* Venue */
