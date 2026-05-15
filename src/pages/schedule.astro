@@ -120,16 +120,9 @@ const categoryColors: Record<string, string> = {
       <span class="venue-icon">🪑</span>
       <h2 class="venue-title">座位圖（二樓展演廳）</h2>
     </div>
-    <div class="seating-pages">
-      <figure class="seating-page">
-        <img src={`${import.meta.env.BASE_URL}seating-2F-page1.png`} alt="座位圖第一頁" loading="lazy" />
-        <figcaption>第一頁</figcaption>
-      </figure>
-      <figure class="seating-page">
-        <img src={`${import.meta.env.BASE_URL}seating-2F-page2.png`} alt="座位圖第二頁" loading="lazy" />
-        <figcaption>第二頁</figcaption>
-      </figure>
-    </div>
+    <figure class="seating-page">
+      <img src={`${import.meta.env.BASE_URL}seating-2F-page1.png`} alt="二樓展演廳座位圖" />
+    </figure>
   </section>
 
   <!-- Venue 4F -->
@@ -319,18 +312,10 @@ const categoryColors: Record<string, string> = {
 
     /* Seating */
     .seating-section { margin-bottom: 48px; }
-    .seating-pages {
-      display: grid;
-      gap: 16px;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 860px) {
-      .seating-pages { grid-template-columns: 1fr 1fr; }
-    }
     .seating-page {
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 12px;
+      padding: 16px;
       background: var(--surface);
       transition: all var(--transition);
     }
@@ -344,13 +329,6 @@ const categoryColors: Record<string, string> = {
       display: block;
       border-radius: var(--radius);
       background: var(--bg);
-    }
-    .seating-page figcaption {
-      text-align: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      margin-top: 10px;
     }
 
     /* Venue */
