@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// TODO: Replace with actual YouTube live stream URL when available
+const liveUrl = "";
+---
+
+<BaseLayout title="直播｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">線上直播</h1>
+    <p class="section-sub">即時觀看 Sparkle 成果發表會</p>
+  </section>
+
+  {liveUrl ? (
+    <div class="video-wrap fade-up">
+      <iframe
+        src={liveUrl}
+        title="Sparkle 直播"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
+  ) : (
+    <div class="placeholder fade-up">
+      <div class="placeholder-icon">📺</div>
+      <h2>直播即將開始</h2>
+      <p class="muted">直播連結將於發表會當天開啟。</p>
+      <p class="muted countdown-line">敬請期待 2026/5/18（一）13:00</p>
+    </div>
+  )}
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      box-shadow: var(--shadow);
+    }
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .placeholder {
+      text-align: center;
+      padding: 80px 24px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--gradient-subtle);
+    }
+    .placeholder-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+    .placeholder h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .placeholder p { font-size: 15px; margin-bottom: 4px; }
+    .countdown-line { font-weight: 600; color: var(--accent) !important; }
+  </style>
+</BaseLayout>
