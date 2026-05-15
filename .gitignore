@@ -18,11 +18,8 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
-# Claude Code local settings
-.claude/settings.local.json
-.claude/.credentials.json
-.claude/cache/
-.claude/logs/
+# Claude Code (entirely)
+.claude/
 
 # Editor / IDE
 .vscode/
