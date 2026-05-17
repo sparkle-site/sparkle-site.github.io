@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// TODO: Replace with actual video embeds when available
+const videos: { title: string; videoId?: string; description?: string }[] = [
+  // Example entry, to be filled in:
+  // { title: "片頭", videoId: "YOUTUBE_ID", description: "Sparkle 開場影片" },
+];
+---
+
+<BaseLayout title="精彩影片｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">精彩影片</h1>
+    <p class="section-sub">由影片組精心拍攝剪輯的成發紀錄片</p>
+  </section>
+
+  {videos.length > 0 ? (
+    <div class="video-grid">
+      {videos.map((v) => (
+        <article class="video-card fade-up">
+          <div class="video-wrap">
+            <iframe
+              src={`https://www.youtube.com/embed/${v.videoId}?rel=0`}
+              title={v.title}
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="video-meta">
+            <h2 class="video-title">{v.title}</h2>
+            {v.description && <p class="muted">{v.description}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div class="placeholder fade-up">
+      <div class="placeholder-icon">🎬</div>
+      <h2>影片即將上線</h2>
+      <p class="muted">影片組精心製作的成發紀錄片將在這裡播放。</p>
+      <p class="muted">敬請期待 2026/5/18 後的完整影片回顧。</p>
+    </div>
+  )}
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .video-grid {
+      display: grid;
+      gap: 24px;
+    }
+    .video-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+      transition: all var(--transition);
+    }
+    .video-card:hover {
+      border-color: rgba(124,58,237,0.15);
+      box-shadow: var(--shadow);
+    }
+    .video-wrap {
+      position: relative;
+      padding-top: 56.25%;
+      background: #000;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-meta { padding: 16px 20px; }
+    .video-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+
+    .placeholder {
+      text-align: center;
+      padding: 80px 24px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--gradient-subtle);
+    }
+    .placeholder-icon { font-size: 64px; margin-bottom: 16px; }
+    .placeholder h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .placeholder p { font-size: 15px; margin-bottom: 4px; }
+  </style>
+</BaseLayout>
