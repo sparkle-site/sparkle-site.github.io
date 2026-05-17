@@ -1,8 +1,20 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// TODO: Replace with actual YouTube live stream URL when available
-const liveUrl = "";
+const streams = [
+  {
+    venue: "四樓國際會議廳",
+    icon: "🏛️",
+    videoId: "9LjYPj7uQcM",
+    watchUrl: "https://www.youtube.com/watch?v=9LjYPj7uQcM",
+  },
+  {
+    venue: "二樓展演廳",
+    icon: "🎭",
+    videoId: "", // TODO: paste 2F YouTube video ID when available
+    watchUrl: "",
+  },
+];
 ---
 
 <BaseLayout title="直播｜Sparkle">
@@ -11,28 +23,73 @@ const liveUrl = "";
     <p class="section-sub">即時觀看 Sparkle 成果發表會</p>
   </section>
 
-  {liveUrl ? (
-    <div class="video-wrap fade-up">
-      <iframe
-        src={liveUrl}
-        title="Sparkle 直播"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-      ></iframe>
-    </div>
-  ) : (
-    <div class="placeholder fade-up">
-      <div class="placeholder-icon">📺</div>
-      <h2>直播即將開始</h2>
-      <p class="muted">直播連結將於發表會當天開啟。</p>
-      <p class="muted countdown-line">敬請期待 2026/5/18（一）13:00</p>
-    </div>
-  )}
+  <div class="streams">
+    {streams.map((s) => (
+      <section class="stream fade-up">
+        <div class="stream-header">
+          <span class="stream-icon">{s.icon}</span>
+          <h2 class="stream-title">{s.venue}</h2>
+          {s.watchUrl && (
+            <a class="stream-link" href={s.watchUrl} target="_blank" rel="noopener">
+              在 YouTube 開啟 ↗
+            </a>
+          )}
+        </div>
+        {s.videoId ? (
+          <div class="video-wrap">
+            <iframe
+              src={`https://www.youtube.com/embed/${s.videoId}?rel=0`}
+              title={`${s.venue} 直播`}
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        ) : (
+          <div class="placeholder">
+            <div class="placeholder-icon">📺</div>
+            <p>直播連結將於發表會當天提供</p>
+          </div>
+        )}
+      </section>
+    ))}
+  </div>
 
   <style>
     .page-header { padding: 20px 0 8px; }
+
+    .streams {
+      display: grid;
+      gap: 32px;
+    }
+
+    .stream-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .stream-icon { font-size: 26px; }
+    .stream-title {
+      font-size: 20px;
+      font-weight: 700;
+      flex: 1;
+    }
+    .stream-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .stream-link:hover {
+      background: var(--accent-bg);
+      border-color: var(--accent-light);
+    }
 
     .video-wrap {
       position: relative;
@@ -54,21 +111,16 @@ const liveUrl = "";
 
     .placeholder {
       text-align: center;
-      padding: 80px 24px;
+      padding: 60px 24px;
       border: 2px dashed var(--border);
       border-radius: var(--radius-lg);
       background: var(--gradient-subtle);
+      color: var(--muted);
     }
     .placeholder-icon {
-      font-size: 64px;
-      margin-bottom: 16px;
+      font-size: 48px;
+      margin-bottom: 12px;
     }
-    .placeholder h2 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .placeholder p { font-size: 15px; margin-bottom: 4px; }
-    .countdown-line { font-weight: 600; color: var(--accent) !important; }
+    .placeholder p { font-size: 15px; font-weight: 500; }
   </style>
 </BaseLayout>
