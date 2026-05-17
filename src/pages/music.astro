@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import audioB64 from "../data/sparkle-song-b64.txt?raw";
+
+const dataUrl = `data:audio/mp4;base64,${audioB64.trim()}`;
+---
+
+<BaseLayout title="原創音樂｜Sparkle">
+  <section class="page-header fade-up">
+    <h1 class="section-title">原創音樂</h1>
+    <p class="section-sub">音樂組為 Sparkle 創作的主題曲</p>
+  </section>
+
+  <div class="player-card fade-up">
+    <div class="player-art">
+      <span class="art-emoji">🎵</span>
+    </div>
+    <div class="player-info">
+      <h2 class="track-title">成發曲</h2>
+      <p class="track-meta muted">Sparkle · 2026 成果發表</p>
+      <audio controls preload="metadata" src={dataUrl} class="audio-player"></audio>
+      <p class="hint muted">音檔內嵌於頁面中，首次載入可能需要幾秒。</p>
+    </div>
+  </div>
+
+  <style>
+    .page-header { padding: 20px 0 8px; }
+
+    .player-card {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--gradient-subtle);
+    }
+    .player-art {
+      width: 140px;
+      height: 140px;
+      border-radius: var(--radius-lg);
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-lg);
+    }
+    .art-emoji { font-size: 64px; }
+
+    .player-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .track-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .track-meta {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .audio-player {
+      width: 100%;
+      max-width: 480px;
+      display: block;
+    }
+    .hint {
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .player-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px;
+      }
+      .player-art { width: 120px; height: 120px; }
+      .audio-player { margin: 0 auto; }
+    }
+  </style>
+</BaseLayout>
