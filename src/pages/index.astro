@@ -98,20 +98,42 @@ const BASE = import.meta.env.BASE_URL;
         <div class="glass-icon">🎬</div>
         <h3>精彩影片</h3>
         <p class="muted">由影片組精心拍攝剪輯，記錄同學們的研究歷程與成果</p>
-        <a class="card-link" href={`${BASE}videos/`}>
-          觀看影片
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </a>
+        <button class="card-link toggle-btn" data-target="video-panel" type="button">
+          <span class="toggle-label">觀看影片</span>
+          <svg class="toggle-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
       <div class="glass-card" style="--delay: 0.2s">
         <div class="glass-card-glow"></div>
         <div class="glass-icon">🎵</div>
         <h3>原創音樂</h3>
         <p class="muted">音樂組原創作曲、編曲、作詞，為發表會增添獨特氛圍</p>
-        <a class="card-link" href={`${BASE}music/`}>
-          聆聽成發曲
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </a>
+        <button class="card-link toggle-btn" data-target="music-panel" type="button">
+          <span class="toggle-label">聆聽成發曲</span>
+          <svg class="toggle-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Music inline panel -->
+    <div class="inline-panel" id="music-panel" hidden>
+      <div class="inline-panel-inner">
+        <div class="panel-art">
+          <span class="panel-art-emoji">🎵</span>
+        </div>
+        <div class="panel-info">
+          <h3>成發曲</h3>
+          <p class="muted">Sparkle · 2026 成果發表</p>
+          <audio controls preload="none" src={`${BASE}sparkle-song.m4a`} class="panel-audio"></audio>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video inline panel -->
+    <div class="inline-panel" id="video-panel" hidden>
+      <div class="video-placeholder">
+        <div class="placeholder-icon">🎬</div>
+        <p>影片即將上線，敬請期待 2026/5/18</p>
       </div>
     </div>
   </section>
@@ -488,6 +510,66 @@ const BASE = import.meta.env.BASE_URL;
       transition: gap 0.3s ease;
     }
     .card-link:hover { gap: 8px; }
+    .toggle-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .toggle-chev { transition: transform 0.3s ease; }
+    .toggle-btn.open .toggle-chev { transform: rotate(90deg); }
+
+    /* Inline expanding panels */
+    .inline-panel {
+      margin-top: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      overflow: hidden;
+      animation: slideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .inline-panel-inner {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      padding: 24px;
+    }
+    .panel-art {
+      width: 88px;
+      height: 88px;
+      border-radius: var(--radius);
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow);
+    }
+    .panel-art-emoji { font-size: 40px; }
+    .panel-info { flex: 1; min-width: 0; }
+    .panel-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+    .panel-info p { font-size: 13px; margin-bottom: 12px; }
+    .panel-audio { width: 100%; max-width: 420px; display: block; }
+
+    .video-placeholder {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--gradient-subtle);
+      color: var(--muted);
+    }
+    .placeholder-icon { font-size: 48px; margin-bottom: 10px; }
+    .video-placeholder p { font-size: 14px; font-weight: 500; }
+
+    @media (max-width: 520px) {
+      .inline-panel-inner { flex-direction: column; text-align: center; padding: 20px; }
+      .panel-art { width: 72px; height: 72px; }
+      .panel-art-emoji { font-size: 32px; }
+    }
 
     /* ── Categories ── */
     .categories { padding: 16px 0 48px; }
@@ -705,6 +787,27 @@ const BASE = import.meta.env.BASE_URL;
       });
     }, { threshold: 0.5 });
     statNums.forEach((el) => statsObserver.observe(el));
+
+    // Inline panel toggles (music / video)
+    document.querySelectorAll('.toggle-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId) return;
+        const panel = document.getElementById(targetId) as HTMLElement | null;
+        if (!panel) return;
+        const isOpen = !panel.hasAttribute('hidden');
+        if (isOpen) {
+          panel.setAttribute('hidden', '');
+          btn.classList.remove('open');
+          // Pause any playing audio when closing
+          panel.querySelectorAll('audio').forEach((a) => a.pause());
+        } else {
+          panel.removeAttribute('hidden');
+          btn.classList.add('open');
+          panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    });
 
     // Countdown to 2026/5/18 09:00 UTC+8
     const eventDate = new Date('2026-05-18T09:00:00+08:00').getTime();
