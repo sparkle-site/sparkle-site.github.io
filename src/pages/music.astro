@@ -1,8 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import audioB64 from "../data/sparkle-song-b64.txt?raw";
-
-const dataUrl = `data:audio/mp4;base64,${audioB64.trim()}`;
+const audioUrl = `${import.meta.env.BASE_URL}sparkle-song.m4a`;
 ---
 
 <BaseLayout title="原創音樂｜Sparkle">
@@ -18,8 +16,8 @@ const dataUrl = `data:audio/mp4;base64,${audioB64.trim()}`;
     <div class="player-info">
       <h2 class="track-title">成發曲</h2>
       <p class="track-meta muted">Sparkle · 2026 成果發表</p>
-      <audio controls preload="metadata" src={dataUrl} class="audio-player"></audio>
-      <p class="hint muted">音檔內嵌於頁面中，首次載入可能需要幾秒。</p>
+      <audio controls preload="metadata" src={audioUrl} class="audio-player"></audio>
+      <a class="dl-link" href={audioUrl} download>⬇ 下載音檔</a>
     </div>
   </div>
 
@@ -66,9 +64,20 @@ const dataUrl = `data:audio/mp4;base64,${audioB64.trim()}`;
       max-width: 480px;
       display: block;
     }
-    .hint {
-      font-size: 12px;
-      margin-top: 12px;
+    .dl-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .dl-link:hover {
+      background: var(--accent-bg);
+      border-color: var(--accent-light);
     }
 
     @media (max-width: 640px) {
